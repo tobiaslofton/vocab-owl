@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VocabOwl — How Big Is Your Vocabulary?</title>
+  <meta name="description" content="A 5-stage vocabulary challenge that tests real word knowledge—from Core Basics to Grandmaster—with shareable social cards." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand" id="brand-home" role="button" tabindex="0" aria-label="VocabOwl Home">
+        <svg class="owl-icon" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+          <rect width="44" height="44" rx="13" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+          <path d="M12 16C12 11.5 16 9.5 22 9.5C28 9.5 32 11.5 32 16V27C32 32 27.5 35.5 22 35.5C16.5 35.5 12 32 12 27V16Z" fill="#78350F"/>
+          <circle cx="17" cy="19.5" r="4.2" fill="#FFFBEB"/>
+          <circle cx="27" cy="19.5" r="4.2" fill="#FFFBEB"/>
+          <circle cx="17.5" cy="19.5" r="1.7" fill="#1C1917"/>
+          <circle cx="27.5" cy="19.5" r="1.7" fill="#1C1917"/>
+          <path d="M19.8 23.5L22 27L24.2 23.5H19.8Z" fill="#F59E0B"/>
+          <path d="M14 11.5L17 14M30 11.5L27 14" stroke="#78350F" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <span class="brand-name">VocabOwl</span>
+          <span class="brand-tag">5-Stage Lexicon Challenge</span>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="sound-toggle" class="icon-btn" type="button" aria-pressed="true">
+          <span id="sound-label">Sound: On</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- LANDING VIEW -->
+    <main id="view-landing" class="view active">
+      <div class="hero-card">
+        <div id="challenge-banner" class="challenge-banner hidden"></div>
+
+        <div class="hero-top">
+          <span class="pill">25 Verified Rounds · ~2.5 Mins</span>
+          <span class="stage-preview">Basics → Intermediate → Advanced → Expert → Grandmaster</span>
+        </div>
+
+        <h1>Think you know every word? Prove it.</h1>
+        <p class="hero-sub">
+          Starts deceptively easy at <strong>Core Basics</strong> and climbs to <strong>Grandmaster</strong>.
+          Match real definitions, spot sneaky fake words, and earn your shareable Lexicon Card.
+        </p>
+
+        <div class="mode-grid">
+          <button id="btn-start-daily" class="btn-primary" type="button">
+            <span>Play Today's Challenge</span>
+            <small id="daily-date-label">Same 25-word climb for everyone today</small>
+          </button>
+          <button id="btn-start-adaptive" class="btn-secondary" type="button">
+            <span>Free Practice Run</span>
+            <small>Fresh randomized 5-stage climb</small>
+          </button>
+        </div>
+
+        <div class="how-it-works">
+          <div class="how-item">
+            <span class="how-num">1</span>
+            <div>
+              <strong>Prove the Meaning</strong>
+              <small>Pick the true definition—no blind swiping.</small>
+            </div>
+          </div>
+          <div class="how-item">
+            <span class="how-num">2</span>
+            <div>
+              <strong>Spot Fake Words</strong>
+              <small>Catch plausible made-up words before they trap you.</small>
+            </div>
+          </div>
+          <div class="how-item">
+            <span class="how-num">3</span>
+            <div>
+              <strong>Share Your Rank</strong>
+              <small>Export a 9:16 Story or Feed card and challenge friends.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- GAME ARENA VIEW -->
+    <main id="view-arena" class="view">
+      <div class="hud">
+        <div class="stage-pips" id="stage-pips">
+          <div class="stage-pip active" data-stage="0"><span>1. Basics</span></div>
+          <div class="stage-pip" data-stage="1"><span>2. Interm.</span></div>
+          <div class="stage-pip" data-stage="2"><span>3. Advanced</span></div>
+          <div class="stage-pip" data-stage="3"><span>4. Expert</span></div>
+          <div class="stage-pip" data-stage="4"><span>5. Grandmaster</span></div>
+        </div>
+        <div class="hud-meta">
+          <span id="hud-progress-text" class="hud-counter">Question 1 of 25</span>
+          <span id="hud-streak" class="streak-pill">Streak: 0</span>
+        </div>
+      </div>
+
+      <div id="question-card" class="question-card">
+        <div class="q-header">
+          <span id="q-type-badge" class="q-type-badge">Meaning Match</span>
+          <span id="q-pos" class="q-pos">adjective</span>
+        </div>
+
+        <h2 id="q-word" class="q-word">abundant</h2>
+        <p id="q-prompt" class="q-prompt">Choose the closest definition:</p>
+
+        <div id="q-options" class="q-options"></div>
+
+        <div id="q-feedback" class="q-feedback hidden">
+          <strong id="fb-title"></strong>
+          <span id="fb-detail"></span>
+        </div>
+      </div>
+    </main>
+
+    <!-- RESULTS VIEW -->
+    <main id="view-results" class="view">
+      <section class="results-grid">
+        <div class="score-panel">
+          <div class="pill" id="result-mode-pill">Daily Challenge Complete</div>
+          <div class="score-hero">
+            <span class="score-label">Estimated Active Vocabulary</span>
+            <h2 id="result-vocab" class="score-number">24,800</h2>
+            <p id="result-range" class="score-range">± 1,200 words · Est. Top 12%</p>
+          </div>
+
+          <div class="rank-badge-box">
+            <span class="rank-kicker" id="result-highest-stage">Reached Stage 5 · Grandmaster</span>
+            <h3 id="result-archetype">The Precision Wordsmith</h3>
+            <p id="result-archetype-desc"></p>
+          </div>
+
+          <div class="metrics-row">
+            <div class="metric-box">
+              <span>Verified Score</span>
+              <strong id="result-accuracy">20 / 25</strong>
+            </div>
+            <div class="metric-box">
+              <span>Fake Words Caught</span>
+              <strong id="result-foils">5 / 5</strong>
+            </div>
+            <div class="metric-box">
+              <span>Rarest Verified Word</span>
+              <strong id="result-rarest">—</strong>
+            </div>
+          </div>
+
+          <div id="stage-breakdown" class="stage-breakdown"></div>
+
+          <div id="affiliate-box" class="affiliate-box hidden">
+            <div class="affiliate-head">
+              <span class="affiliate-kicker" id="aff-kicker">Recommended For Your Tier</span>
+              <span class="affiliate-disc">Affiliate</span>
+            </div>
+            <div id="affiliate-links" class="affiliate-links"></div>
+            <small style="display:block;margin-top:8px;font-size:0.7rem;color:#6b635b;">As an Amazon Associate, VocabOwl earns from qualifying purchases.</small>
+          </div>
+
+          <div class="share-actions">
+            <button id="btn-dl-story" class="btn-primary" type="button">Download Story Card (9:16 PNG)</button>
+            <button id="btn-dl-feed" class="btn-secondary" type="button">Download Feed Card (1200×630)</button>
+            <div class="social-row">
+              <button id="btn-share-x" class="social-btn" type="button">Post to X</button>
+              <button id="btn-share-li" class="social-btn" type="button">Post to LinkedIn</button>
+              <button id="btn-copy-link" class="social-btn" type="button">Copy Challenge Link</button>
+            </div>
+            <button id="btn-play-again" class="ghost-btn" type="button">Play Again</button>
+          </div>
+        </div>
+
+        <div class="preview-panel">
+          <div class="preview-header">
+            <span>Shareable Scorecard Preview</span>
+            <div class="preview-tabs">
+              <button id="tab-story" class="tab-btn active" type="button">9:16 Story</button>
+              <button id="tab-feed" class="tab-btn" type="button">Feed 1200×630</button>
+            </div>
+          </div>
+          <div class="canvas-wrap">
+            <canvas id="share-canvas" width="1080" height="1920"></canvas>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="lexicon.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
